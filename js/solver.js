@@ -52,7 +52,7 @@ function solve(grid, inverse){
 			if (isValid(grid, pos, num)){
 				grid[pos[0]][pos[1]] = num
 			
-				if (solve(grid)){
+				if (solve(grid, true)){
 					return true
 				}
 				grid[pos[0]][pos[1]] = 0
@@ -64,7 +64,7 @@ function solve(grid, inverse){
 			if (isValid(grid, pos, num)){
 				grid[pos[0]][pos[1]] = num
 			
-				if (solve(grid)){
+				if (solve(grid, false)){
 					return true
 				}
 				grid[pos[0]][pos[1]] = 0
