@@ -44,7 +44,7 @@ function generateSudoku(){
         board[i][Math.floor(Math.random() * 9)] = i + 1
     }
 
-    solve(board, false) //resuelvo con num del 1 al 9
+    solve(board, false) //solve with numbers from 1 to 9
     
     let copy = Array(9).fill(0).map(()=>Array(9).fill(0))
     copyBoard(board, copy)
