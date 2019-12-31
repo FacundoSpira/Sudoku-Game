@@ -1,7 +1,9 @@
-let sudoku = lista[Math.floor(Math.random() * lista.length)]
+//We generate a random sudoku to start the game
+let sudoku = generateSudoku()
+let grid = Array(9).fill().map(()=>Array(9).fill())
+
 let size = 70
 let lives = 5
-let grid = Array(9).fill().map(()=>Array(9).fill())
 let gameOver = false
 let win = false
 
@@ -14,7 +16,7 @@ function setup(){
 			grid[i][j] = new Cell(i, j, sudoku[i][j]) 
 		}
 	}
-	solve(sudoku) //usaremos para comparar
+	solve(sudoku, false) //we will use it to compare with the user input
 
 }
 
@@ -23,7 +25,7 @@ function draw(){
 	if (!gameOver && !win){	
 		background(255)
 
-		// Mostrar las celdas
+		// Show cells
 		for (let i = 0; i < 9; i++){
 			for (let j = 0; j < 9; j++){
 				grid[i][j].show()
@@ -31,10 +33,11 @@ function draw(){
 		}
 
 		fill(0)
-		//Mostrar vidas
+		
+		//Show lives left
 		text("Lives: " + "❤".repeat(lives), 10, height-15)
 
-		//Chequear si perdio
+		//Check if gameOver
 		if (lives == 0){
 			gameOver = true
 			background(255)
@@ -43,7 +46,7 @@ function draw(){
 			text("Recarga para reiniciar", width/2 - 120, height/2 + 60)
 		}
 
-		//Chequear si gano
+		//Cheque if win
 		win = checkWin()
 		if (win){
 			background(255)
@@ -89,12 +92,12 @@ function mousePressed(){
 }
 
 function keyPressed(){
-	//Selected devolvera un arreglo con [True/False, i, j]
-	//Si es false i = j = null
+	//Selected will return an array with [True/False, i, j]
+	//If it's false i = j = null
 	let selected = findSelected()
 
 	if (selected[0]){
-		//Numeros
+		//Posible key inputs
 		let numeros = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 		let i = 0
 		while (i < numeros.length && key != numeros[i]){
@@ -104,12 +107,12 @@ function keyPressed(){
 			grid[selected[1]][selected[2]].pos = int(key)
 		}
 
-		//Borrar posible
+		//Delete selected
 		if (keyCode === BACKSPACE){
 			grid[selected[1]][selected[2]].pos = 0
 		}
 
-		//Confirmar
+		//Confirm
 		if (keyCode === ENTER){
 			if (grid[selected[1]][selected[2]].pos != 0){
 				grid[selected[1]][selected[2]].confirm()
